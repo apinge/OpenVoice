@@ -19,7 +19,7 @@ model = None
 def split_audio_whisper(audio_path, audio_name, target_dir='processed'):
     global model
     if model is None:
-        model = WhisperModel(model_size, device="cuda", compute_type="float16")
+        model = WhisperModel(model_size, device="cpu", compute_type="float16")
     audio = AudioSegment.from_file(audio_path)
     max_len = len(audio)
 
@@ -140,10 +140,10 @@ def get_se(audio_path, vc_model, target_dir='processed', vad=True):
     # if os.path.isdir(audio_path):
     #     wavs_folder = audio_path
     
-    if vad:
-        wavs_folder = split_audio_vad(audio_path, target_dir=target_dir, audio_name=audio_name)
-    else:
-        wavs_folder = split_audio_whisper(audio_path, target_dir=target_dir, audio_name=audio_name)
+    #if vad:
+    wavs_folder = split_audio_vad(audio_path, target_dir=target_dir, audio_name=audio_name)
+    #else:
+    #    wavs_folder = split_audio_whisper(audio_path, target_dir=target_dir, audio_name=audio_name)
     
     audio_segs = glob(f'{wavs_folder}/*.wav')
     if len(audio_segs) == 0:
